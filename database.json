@@ -1,0 +1,31 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "admin@calao.org",
+      "password": "$2b$12$fl7HBR4fNQTMUQauAO5qUekdiDICxUNKTqykMl.0NM9XWK3gfgfUe",
+      "name": "System Administrator",
+      "organization": "CALAO",
+      "role": "admin",
+      "createdAt": "2025-07-11T01:59:10.695Z",
+      "lastLogin": null
+    },
+    {
+      "id": 2,
+      "email": "test@calao.co",
+      "password": "$2b$12$/ewA5mh4Dkeg9IlXrctm..Tm1f1z3vx/gfaKHdwQbH/nGIeUb6i6C",
+      "name": "Test User",
+      "organization": "CALAO",
+      "role": "user",
+      "createdAt": "2025-07-11T01:59:10.929Z",
+      "lastLogin": "2025-07-11T13:06:01.481Z"
+    }
+  ],
+  "applications": [],
+  "files": [],
+  "settings": {
+    "version": "1.0.0",
+    "created": "2025-07-11T01:59:10.446Z",
+    "lastBackup": null
+  }
+}

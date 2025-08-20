@@ -1,0 +1,45 @@
+plugins = []
+headers = []
+
+[functions]
+
+[functions."*"]
+
+[build]
+publish = "/Users/padrejose/Desktop/Non-Profit-Profile/nonprofit-clean/build"
+publishOrigin = "config"
+commandOrigin = "config"
+base = "/Users/padrejose/Desktop/Non-Profit-Profile/nonprofit-clean"
+command = "npm run build"
+
+[build.environment]
+NODE_VERSION = "18"
+NPM_VERSION = "9"
+NODE_OPTIONS = "--max-old-space-size=4096"
+CI = "false"
+DISABLE_ESLINT_PLUGIN = "true"
+GENERATE_SOURCEMAP = "false"
+
+[build.processing]
+
+[build.processing.css]
+
+[build.processing.html]
+
+[build.processing.images]
+
+[build.processing.js]
+
+[build.services]
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200.0
+force = false
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
