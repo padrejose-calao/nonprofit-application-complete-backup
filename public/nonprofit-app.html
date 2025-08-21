@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nonprofit Grant Application - CALAO</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* Top Bar */
+        .top-bar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .top-bar h1 {
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .top-bar .user-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        /* Main Layout */
+        .app-container {
+            display: flex;
+            height: calc(100vh - 68px);
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+            overflow-y: auto;
+        }
+        .sidebar-header {
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .progress-bar {
+            background: #e5e7eb;
+            height: 8px;
+            border-radius: 4px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            background: #10b981;
+            height: 100%;
+            width: 35%;
+            transition: width 0.3s;
+        }
+        .sidebar-section {
+            padding: 10px;
+        }
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #4b5563;
+        }
+        .sidebar-item:hover {
+            background: #f3f4f6;
+        }
+        .sidebar-item.active {
+            background: #ede9fe;
+            color: #7c3aed;
+            font-weight: 600;
+        }
+        .sidebar-item.completed {
+            color: #10b981;
+        }
+        .sidebar-item i {
+            width: 20px;
+            margin-right: 12px;
+        }
+        .sidebar-item .status {
+            margin-left: auto;
+            font-size: 0.9em;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+        .content-header {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .content-header h2 {
+            color: #1f2937;
+            margin-bottom: 10px;
+        }
+        .content-header p {
+            color: #6b7280;
+        }
+        
+        /* Form Section */
+        .form-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .form-section h3 {
+            color: #1f2937;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #374151;
+            font-weight: 500;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 0.95em;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #7c3aed;
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+        }
+        .btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-size: 0.95em;
+        }
+        .btn-primary {
+            background: #7c3aed;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #6d28d9;
+        }
+        .btn-secondary {
+            background: white;
+            color: #6b7280;
+            border: 1px solid #d1d5db;
+        }
+        .btn-secondary:hover {
+            background: #f9fafb;
+        }
+        
+        /* Status indicators */
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+        .status-draft {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .status-complete {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .status-in-progress {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        /* Auto-save indicator */
+        .auto-save {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .auto-save.saving {
+            background: #fef3c7;
+        }
+        .auto-save.saved {
+            background: #d1fae5;
+        }
+        
+        /* Document upload area */
+        .upload-area {
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .upload-area:hover {
+            border-color: #7c3aed;
+            background: #f9fafb;
+        }
+        .upload-area i {
+            font-size: 3em;
+            color: #9ca3af;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <h1>
+            <i class="fas fa-hands-helping"></i>
+            Nonprofit Grant Application System
+        </h1>
+        <div class="user-section">
+            <span class="status-badge status-in-progress">Application In Progress</span>
+            <div class="user-info">
+                <span>Admin User</span>
+                <div class="user-avatar">A</div>
+                <button class="btn btn-secondary" style="padding: 8px 16px;">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h3>Application Progress</h3>
+                <div style="font-size: 0.9em; color: #6b7280; margin-top: 5px;">35% Complete</div>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+            </div>
+            
+            <div class="sidebar-section">
+                <div class="sidebar-item active">
+                    <i class="fas fa-info-circle"></i>
+                    Basic Information
+                    <span class="status">In Progress</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-file-alt"></i>
+                    Narrative
+                    <span class="status">Not Started</span>
+                </div>
+                <div class="sidebar-item completed">
+                    <i class="fas fa-sitemap"></i>
+                    Governance
+                    <span class="status">✓</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-users-cog"></i>
+                    Management
+                    <span class="status">Not Started</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-dollar-sign"></i>
+                    Financials
+                    <span class="status">Not Started</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-project-diagram"></i>
+                    Programs
+                    <span class="status">Not Started</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-chart-line"></i>
+                    Impact
+                    <span class="status">Not Started</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-clipboard-check"></i>
+                    Compliance
+                    <span class="status">Not Started</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-laptop"></i>
+                    Technology
+                    <span class="status">Not Started</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-bullhorn"></i>
+                    Communications
+                    <span class="status">Not Started</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-hand-holding-usd"></i>
+                    Donations
+                    <span class="status">Not Started</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-shield-alt"></i>
+                    Risk Management
+                    <span class="status">Not Started</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-umbrella"></i>
+                    Insurance
+                    <span class="status">Not Started</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    Other Locations
+                    <span class="status">Not Started</span>
+                </div>
+                <div class="sidebar-item">
+                    <i class="fas fa-plus-circle"></i>
+                    Additional Info
+                    <span class="status">Not Started</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="content-header">
+                <h2>Basic Information</h2>
+                <p>Please provide your organization's basic information. All fields marked with * are required.</p>
+            </div>
+
+            <div class="form-section">
+                <h3>Organization Details</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Organization Name *</label>
+                        <input type="text" value="CALAO" placeholder="Enter organization name">
+                    </div>
+                    <div class="form-group">
+                        <label>EIN/Tax ID *</label>
+                        <input type="text" value="12-3456789" placeholder="XX-XXXXXXX">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Year Founded *</label>
+                        <input type="text" value="2015" placeholder="YYYY">
+                    </div>
+                    <div class="form-group">
+                        <label>Organization Type *</label>
+                        <select>
+                            <option>501(c)(3) - Charitable Organization</option>
+                            <option>501(c)(4) - Social Welfare</option>
+                            <option>501(c)(6) - Business League</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Mission Statement *</label>
+                    <textarea rows="4" placeholder="Describe your organization's mission...">To empower communities through education, healthcare, and sustainable development initiatives that create lasting positive change.</textarea>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Contact Information</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Primary Contact Name *</label>
+                        <input type="text" value="Padre Jose" placeholder="Full name">
+                    </div>
+                    <div class="form-group">
+                        <label>Title *</label>
+                        <input type="text" value="Executive Director" placeholder="Job title">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" value="padrejose@calao.org" placeholder="email@organization.org">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone *</label>
+                        <input type="tel" value="(555) 123-4567" placeholder="(XXX) XXX-XXXX">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Address Information</h3>
+                <div class="form-group">
+                    <label>Street Address *</label>
+                    <input type="text" value="123 Main Street" placeholder="Street address">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>City *</label>
+                        <input type="text" value="New York" placeholder="City">
+                    </div>
+                    <div class="form-group">
+                        <label>State *</label>
+                        <select>
+                            <option>New York</option>
+                            <option>California</option>
+                            <option>Texas</option>
+                            <option>Florida</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>ZIP Code *</label>
+                        <input type="text" value="10001" placeholder="XXXXX">
+                    </div>
+                    <div class="form-group">
+                        <label>Website</label>
+                        <input type="url" value="https://www.calao.org" placeholder="https://www.organization.org">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Documents</h3>
+                <div class="upload-area" onclick="alert('Document upload feature - All documents are preserved in GitHub backup!')">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h4>Drop files here or click to upload</h4>
+                    <p style="color: #6b7280; margin-top: 10px;">Support for PDF, DOC, DOCX, XLS, XLSX (Max 10MB)</p>
+                </div>
+                <div style="margin-top: 20px;">
+                    <div style="padding: 10px; background: #f9fafb; border-radius: 6px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between;">
+                        <span><i class="fas fa-file-pdf" style="color: #dc2626; margin-right: 10px;"></i>IRS 501c3 Letter.pdf</span>
+                        <span style="color: #10b981;"><i class="fas fa-check-circle"></i> Uploaded</span>
+                    </div>
+                    <div style="padding: 10px; background: #f9fafb; border-radius: 6px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between;">
+                        <span><i class="fas fa-file-pdf" style="color: #dc2626; margin-right: 10px;"></i>Board Resolution.pdf</span>
+                        <span style="color: #10b981;"><i class="fas fa-check-circle"></i> Uploaded</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-secondary">
+                    <i class="fas fa-save"></i> Save Draft
+                </button>
+                <button class="btn btn-primary">
+                    Continue to Narrative <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auto-save indicator -->
+    <div class="auto-save saved">
+        <i class="fas fa-check-circle"></i>
+        <span>All changes saved</span>
+    </div>
+
+    <script>
+        // Simulate auto-save
+        setInterval(() => {
+            const autoSave = document.querySelector('.auto-save');
+            autoSave.className = 'auto-save saving';
+            autoSave.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i><span>Saving...</span>';
+            
+            setTimeout(() => {
+                autoSave.className = 'auto-save saved';
+                autoSave.innerHTML = '<i class="fas fa-check-circle"></i><span>All changes saved</span>';
+            }, 1000);
+        }, 10000);
+
+        // Sidebar navigation
+        document.querySelectorAll('.sidebar-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        console.log('✅ Nonprofit Application Interface Loaded');
+        console.log('📦 Full application backed up at: https://github.com/padrejose-calao/nonprofit-application-complete-backup');
+    </script>
+</body>
+</html>
